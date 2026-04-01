@@ -3,10 +3,11 @@ module RoomsHelper
     qrcode = RQRCode::QRCode.new(room_url(room.code))
 
     qrcode.as_svg(
-      offset: 0,
-      color: "currentColor",
+      offset: 8,
+      color: "#111111",
+      fill: "#ffffff",
       shape_rendering: "crispEdges",
-      module_size: 4,
+      module_size: 6,
       standalone: true,
       use_path: true
     ).html_safe
