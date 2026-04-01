@@ -1,0 +1,11 @@
+active_room:
+  code: k7m4q2
+  text: hello from fixture
+  last_activity_at: <%= 10.minutes.ago %>
+  deleted_at:
+
+expired_room:
+  code: z8n5r3
+  text: old text
+  last_activity_at: <%= 2.hours.ago %>
+  deleted_at:

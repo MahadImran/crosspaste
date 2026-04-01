@@ -1,0 +1,10 @@
+<section class="join-panel deleted-room-panel">
+  <div class="section-heading">
+    <p class="eyebrow">Room deleted</p>
+    <h2>Room <%= code %> is no longer available.</h2>
+  </div>
+  <p class="hero-body">Create a fresh room to keep moving text between devices.</p>
+  <%= form_with url: rooms_path, method: :post, class: "inline-form" do %>
+    <%= button_tag "Create New Room", class: "button button-primary" %>
+  <% end %>
+</section>

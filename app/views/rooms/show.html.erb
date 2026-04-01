@@ -1,0 +1,6 @@
+<% content_for :title, "Room #{@room.code} · CrossPaste" %>
+<%= turbo_stream_from @room %>
+
+<div id="room-shell">
+  <%= render "room_shell", room: @room %>
+</div>

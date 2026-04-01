@@ -1,0 +1,148 @@
+<% content_for :title, "CrossPaste" %>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-copy">
+    <p class="eyebrow">Temporary text transfer utility</p>
+    <h1>Move text between devices in one push.</h1>
+    <p class="hero-body">
+      Create a short room, paste what you need, push it once, and copy it anywhere else.
+      No account, no clutter, no chat history.
+    </p>
+    <div class="hero-actions">
+      <%= form_with url: rooms_path, method: :post, class: "inline-form" do %>
+        <%= button_tag "Create Room", class: "button button-primary" %>
+      <% end %>
+      <%= link_to "Join Room", "#join", class: "button button-secondary" %>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="device device-phone">
+      <div class="device-screen">
+        <span class="device-label">Phone</span>
+        <p class="device-code">Room code c7k2md</p>
+        <p class="device-text">OTP 641882</p>
+        <div class="device-pill">Push to Room</div>
+      </div>
+    </div>
+    <div class="transfer-beam"></div>
+    <div class="device device-laptop">
+      <div class="device-screen">
+        <span class="device-label">Laptop</span>
+        <p class="device-code">Last synced 2s ago</p>
+        <p class="device-text">OTP 641882</p>
+        <div class="device-pill device-pill-alt">Copy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="workflow" id="workflow">
+  <div class="section-heading">
+    <p class="eyebrow">Fast path</p>
+    <h2>Built for links, notes, and codes you need right now.</h2>
+  </div>
+  <div class="workflow-steps">
+    <article>
+      <span>01</span>
+      <h3>Create or join</h3>
+      <p>Start a six-character room or hop in instantly with a QR code.</p>
+    </article>
+    <article>
+      <span>02</span>
+      <h3>Edit locally</h3>
+      <p>Paste text into one shared box and make changes before syncing.</p>
+    </article>
+    <article>
+      <span>03</span>
+      <h3>Push once</h3>
+      <p>The latest push replaces the room text for everyone connected.</p>
+    </article>
+  </div>
+</section>
+
+<section class="room-preview" id="room">
+  <div class="room-header">
+    <div>
+      <p class="eyebrow">Room preview</p>
+      <h2>Clean enough for a phone, solid enough for a desktop.</h2>
+    </div>
+    <div class="status-cluster">
+      <span class="status-pill status-online">Live room</span>
+      <span class="status-meta">1 hour expiry window</span>
+    </div>
+  </div>
+
+  <div class="room-layout">
+    <aside class="room-side">
+      <div class="side-panel">
+        <p class="panel-label">Room code</p>
+        <div class="code-row">
+          <strong>c7k2md</strong>
+          <button class="ghost-button" type="button">Copy code</button>
+        </div>
+      </div>
+      <div class="side-panel qr-panel">
+        <p class="panel-label">Join on another device</p>
+        <div class="qr-frame" aria-hidden="true">
+          <div class="qr-block"></div>
+        </div>
+        <p class="panel-note">Scan the room QR to open the same shared text instantly.</p>
+      </div>
+      <div class="side-panel activity-panel">
+        <p class="panel-label">Room activity</p>
+        <ul>
+          <li>Latest push wins for everyone</li>
+          <li>Plain text only, up to 5000 characters</li>
+          <li>Delete clears the room for all devices</li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="editor-panel" aria-label="Shared text room preview">
+      <div class="editor-topbar">
+        <div>
+          <p class="panel-label">Shared text</p>
+          <p class="editor-subtitle">Draft locally, then push when you’re ready.</p>
+        </div>
+        <div class="counter-wrap">
+          <span>98</span>
+          <span>/ 5000</span>
+        </div>
+      </div>
+
+      <label class="sr-only" for="preview-text">Shared room text</label>
+      <textarea id="preview-text" readonly>Here’s the Wi-Fi password for the guest network:
+MINT-PLANE-482
+
+If the login page appears, use desk@studio.local as the email.</textarea>
+
+      <div class="editor-actions">
+        <button class="button button-primary" type="button">Push to Room</button>
+        <button class="button button-secondary" type="button">Copy</button>
+        <button class="button button-tertiary" type="button">Clear Text</button>
+        <button class="link-button" type="button">Delete Room</button>
+      </div>
+      <div class="toast-row">
+        <span class="toast">Shared text updates in near realtime</span>
+        <span class="toast toast-muted">No typing sync until you press push</span>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="join-panel" id="join">
+  <div class="section-heading">
+    <p class="eyebrow">Join a room</p>
+    <h2>Short code in, shared text out.</h2>
+  </div>
+
+  <%= form_with url: join_room_path, method: :post, class: "join-form", data: { controller: "join" } do %>
+    <%= label_tag :code, "Room code" %>
+    <div class="join-row">
+      <%= text_field_tag :code, @join_code, maxlength: Room::CODE_LENGTH, autocomplete: "off", spellcheck: false,
+        autocapitalize: "off", inputmode: "text", data: { join_target: "input", action: "input->join#normalize" } %>
+      <%= button_tag "Join Room", class: "button button-primary" %>
+    </div>
+  <% end %>
+</section>

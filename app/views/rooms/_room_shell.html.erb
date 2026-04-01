@@ -1,0 +1,74 @@
+<section class="room-preview room-page room-page-live" id="room">
+  <div class="room-header">
+    <div>
+      <p class="eyebrow">Active room</p>
+      <h2>Room <%= room.code %> is ready to sync.</h2>
+    </div>
+    <div class="status-cluster">
+      <span class="status-pill status-online">Connected</span>
+      <span class="status-meta"><%= relative_expiry_label(room) %></span>
+    </div>
+  </div>
+
+  <div class="room-layout">
+    <aside class="room-side">
+      <div class="side-panel" data-controller="clipboard" data-clipboard-text-value="<%= room.code %>">
+        <p class="panel-label">Room code</p>
+        <div class="code-row">
+          <strong><%= room.code %></strong>
+          <button class="ghost-button" type="button" data-action="clipboard#copy">Copy code</button>
+        </div>
+      </div>
+
+      <div class="side-panel qr-panel">
+        <p class="panel-label">Join on another device</p>
+        <div class="qr-frame qr-frame-live">
+          <%= room_qr_svg(room) %>
+        </div>
+        <p class="panel-note">Scan this QR code to open the same room on your phone.</p>
+      </div>
+
+      <div class="side-panel activity-panel">
+        <p class="panel-label">Room activity</p>
+        <ul>
+          <li>Last synced <%= time_ago_in_words(room.updated_at) %> ago</li>
+          <li>Expires at <%= room.expires_at.strftime("%-I:%M %p") %></li>
+          <li>Latest push replaces the shared text for everyone</li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="editor-panel" data-controller="room">
+      <%= form_with model: room, url: room_path(room.code), method: :patch do |form| %>
+        <div class="editor-topbar">
+          <div>
+            <p class="panel-label">Shared text</p>
+            <p class="editor-subtitle">Edit locally, then push when you want every device to receive the update.</p>
+          </div>
+          <div class="counter-wrap">
+            <span data-room-target="count"><%= room.text.length %></span>
+            <span>/ <%= Room::MAX_TEXT_LENGTH %></span>
+          </div>
+        </div>
+
+        <%= form.text_area :text, maxlength: Room::MAX_TEXT_LENGTH, id: "shared-text",
+          data: { room_target: "textarea", action: "input->room#updateCount" } %>
+
+        <div class="editor-actions">
+          <%= form.button "Push to Room", class: "button button-primary" %>
+        </div>
+      <% end %>
+
+      <div class="editor-actions">
+        <button class="button button-secondary" type="button" data-action="room#copy">Copy</button>
+        <%= button_to "Clear Text", clear_room_path(room.code), method: :post, class: "button button-tertiary" %>
+        <%= button_to "Delete Room", room_path(room.code), method: :delete, class: "link-button", form: { data: { turbo_confirm: "Delete this room for everyone?" } } %>
+      </div>
+
+      <div class="toast-row">
+        <span class="toast">Live room updates are powered by Hotwire</span>
+        <span class="toast toast-muted">No live typing sync until you press push</span>
+      </div>
+    </section>
+  </div>
+</section>

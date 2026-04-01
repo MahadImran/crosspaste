@@ -1,0 +1,38 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore local environment files.
+/.env*
+
+# Ignore logs and temp files.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore local storage and SQLite databases.
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+*.sqlite3
+*.sqlite3-*
+
+# Ignore compiled assets and local caches.
+/public/assets
+/tmp/cache
+/tmp/restart.txt
+/vendor/bundle
+
+# Ignore local secrets.
+/config/*.key
+
+# Keep local build context and design references out of git.
+/.context/
+/prototype/
