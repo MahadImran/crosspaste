@@ -9,7 +9,7 @@ module RoomsHelper
       shape_rendering: "crispEdges",
       module_size: 6,
       standalone: true,
-      use_path: true
+      use_path: false
     ).html_safe
   end
 
