@@ -4,8 +4,8 @@ module RoomsHelper
 
     qrcode.as_svg(
       offset: 8,
-      color: "#111111",
-      fill: "#ffffff",
+      color: "111111",
+      fill: "ffffff",
       shape_rendering: "crispEdges",
       module_size: 6,
       standalone: true,
