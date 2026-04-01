@@ -7,7 +7,7 @@ CrossPaste is a small Rails and Hotwire app for moving text, links, and short co
 - Creates short-lived rooms with human-readable codes
 - Syncs shared text across connected clients with Turbo Streams
 - Supports quick join flows from phone or desktop
-- Includes QR generation for easier handoff between devices
+- Includes QR generation work for easier transfer between devices
 - Uses a lightweight dawn/night theme with system-default startup behavior
 
 ## Stack

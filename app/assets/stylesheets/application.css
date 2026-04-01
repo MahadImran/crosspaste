@@ -532,16 +532,28 @@ html[data-theme="night"] .status-meta {
   aspect-ratio: 1;
   width: min(100%, 13rem);
   border-radius: 1.2rem;
-  padding: 0.85rem;
-  background: #ffffff;
-  border: 1px solid rgba(17, 24, 39, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+  background: color-mix(in srgb, var(--surface-strong) 92%, white 8%);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.qr-frame svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+.qr-coming-soon {
+  display: grid;
+  gap: 0.45rem;
+  text-align: center;
+  color: var(--ink);
+}
+
+.qr-coming-soon strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1rem;
+}
+
+.qr-coming-soon span {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .qr-block {

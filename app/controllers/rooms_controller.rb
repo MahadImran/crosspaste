@@ -20,7 +20,7 @@ class RoomsController < ApplicationController
     room = Room.find_by(code: code)
 
     if room.blank? || room.expired?
-      redirect_to root_path(code: code), alert: "We couldn’t find an active room with that code."
+      redirect_to root_path(code: code), alert: "No active room was found for that code."
     else
       room.touch(:last_activity_at)
       redirect_to room_path(room.code)
@@ -49,7 +49,7 @@ class RoomsController < ApplicationController
     @room.mark_deleted!
     redirect_to root_path, notice: "Room #{code} was deleted."
   rescue ActiveRecord::RecordNotDestroyed
-    redirect_to room_path(@room.code), alert: "We couldn’t delete that room right now."
+    redirect_to room_path(@room.code), alert: "That room could not be deleted right now."
   end
 
   private
