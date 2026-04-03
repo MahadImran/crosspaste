@@ -4,6 +4,8 @@ class Room < ApplicationRecord
   MAX_TEXT_LENGTH = 5000
   EXPIRY_WINDOW = 1.hour
 
+  encrypts :text, support_unencrypted_data: true, compress: false
+
   before_validation :assign_code, on: :create
   before_validation :set_initial_activity, on: :create
 
@@ -65,7 +67,7 @@ class Room < ApplicationRecord
     broadcast_replace_to(
       self,
       target: "room-shell",
-      partial: "rooms/room_shell",
+      partial: "rooms/room_frame",
       locals: { room: self }
     )
   end
@@ -74,7 +76,7 @@ class Room < ApplicationRecord
     broadcast_replace_to(
       self,
       target: "room-shell",
-      partial: "rooms/deleted_room_shell",
+      partial: "rooms/deleted_room_frame",
       locals: { code: code }
     )
   end

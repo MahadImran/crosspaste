@@ -20,6 +20,8 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
     get room_url(rooms(:active_room).code)
     assert_response :success
     assert_includes @response.body, rooms(:active_room).code
+    assert_includes @response.body, "data:image/png;base64,"
+    assert_includes @response.body, "Scan the room QR to open the same shared text instantly."
   end
 
   test "join redirects to an active room" do

@@ -538,22 +538,15 @@ html[data-theme="night"] .status-meta {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.qr-coming-soon {
-  display: grid;
-  gap: 0.45rem;
-  text-align: center;
-  color: var(--ink);
+.qr-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
 }
 
-.qr-coming-soon strong {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 1rem;
-}
-
-.qr-coming-soon span {
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.45;
+.qr-frame-live {
+  padding: 0.8rem;
 }
 
 .qr-block {

@@ -19,4 +19,38 @@ class RoomTest < ActiveSupport::TestCase
     assert_not room.valid?
     assert_includes room.errors[:text], "is too long (maximum is 5000 characters)"
   end
+
+  test "encrypts stored text at rest" do
+    room = Room.create!(text: "top secret")
+    stored_value = Room.connection.select_value("SELECT text FROM rooms WHERE id = #{room.id}")
+
+    refute_equal "top secret", stored_value
+    assert_equal "top secret", room.reload.text
+  end
+
+  test "reads legacy plaintext rows during the transition" do
+    room = rooms(:active_room)
+
+    assert_equal "hello from fixture", room.text
+  end
+
+  test "broadcast room frame keeps the replacement target in the markup" do
+    rendered = ApplicationController.render(
+      partial: "rooms/room_frame",
+      locals: { room: rooms(:active_room) }
+    )
+
+    assert_includes rendered, 'id="room-shell"'
+    assert_includes rendered, rooms(:active_room).text
+  end
+
+  test "broadcast deleted room frame keeps the replacement target in the markup" do
+    rendered = ApplicationController.render(
+      partial: "rooms/deleted_room_frame",
+      locals: { code: rooms(:active_room).code }
+    )
+
+    assert_includes rendered, 'id="room-shell"'
+    assert_includes rendered, "is no longer available"
+  end
 end

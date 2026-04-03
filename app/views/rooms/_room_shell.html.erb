@@ -23,12 +23,9 @@
       <div class="side-panel qr-panel">
         <p class="panel-label">Join on another device</p>
         <div class="qr-frame qr-frame-live">
-          <div class="qr-coming-soon">
-            <strong>QR functionality coming soon</strong>
-            <span>Room code join stays available for now.</span>
-          </div>
+          <%= room_qr_image(room) %>
         </div>
-        <p class="panel-note">Use the room code above to join from another device.</p>
+        <p class="panel-note">Scan the room QR to open the same shared text instantly.</p>
       </div>
 
       <div class="side-panel activity-panel">
