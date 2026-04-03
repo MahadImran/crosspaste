@@ -7,7 +7,9 @@ image: crosspaste
 # Deploy to these servers.
 servers:
   web:
-    - 45.41.207.222
+    hosts:
+      - 45.41.207.222
+    proxy: false
   # job:
   #   hosts:
   #     - 192.168.0.1
