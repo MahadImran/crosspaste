@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: crosspaste-mahad
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    autoDeployTrigger: checksPass
+    healthCheckPath: /up
+    dockerCommand: ./bin/rails server
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: RAILS_ASSUME_SSL
+        value: "true"
+      - key: WEB_CONCURRENCY
+        value: "0"
+      - key: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+        generateValue: true
+      - key: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+        generateValue: true
+      - key: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+        generateValue: true

@@ -1,5 +1,7 @@
 # CrossPaste
 
+[![CI](https://github.com/MahadImran/crosspaste/actions/workflows/ci.yml/badge.svg)](https://github.com/MahadImran/crosspaste/actions/workflows/ci.yml)
+
 CrossPaste is a small Rails and Hotwire app for moving text, links, and short codes between devices with almost no setup. Create a room, share the code, and keep one live text surface in sync across everyone connected to it.
 
 ## What It Does
@@ -14,7 +16,7 @@ CrossPaste is a small Rails and Hotwire app for moving text, links, and short co
 
 - Rails 8
 - Hotwire, Turbo, and Stimulus
-- SQLite
+- SQLite locally and PostgreSQL on managed hosting
 - RQRCode
 - Docker for production runtime
 
@@ -47,19 +49,24 @@ Then open `http://127.0.0.1:3000`.
 bin/rails test
 ```
 
-## Production Notes
+## Hosting and CI/CD
 
-This app is set up to run well as a small single-server Rails deployment with Docker. The current live deployment uses:
+GitHub Actions runs Rails tests, lint, dependency audits, and a production Docker
+smoke test against PostgreSQL. The smoke test creates a room, saves text, and verifies the Turbo Stream over a WebSocket.
 
-- Docker on a VPS
-- Nginx as the public reverse proxy
-- Let’s Encrypt for TLS
-- A persistent Docker volume for SQLite and uploaded/generated storage data
+1. Create a free [Neon](https://console.neon.tech/) project for this app. Copy the
+   direct PostgreSQL connection string with TLS enabled.
+2. In [Render](https://dashboard.render.com/), choose **New → Blueprint** and connect
+   this GitHub repository. The Blueprint selects a free Docker web service and
+   prompts for the connection string as `DATABASE_URL`.
+3. After the first deploy, open the service URL and check `/up`. Render deploys
+   subsequent updates to `main` after GitHub checks pass.
 
-Live app:
+The Docker entrypoint runs `bin/rails db:prepare` before starting Puma.
+Keep one Puma process and one web instance for room broadcasts. A deploy can
+briefly disconnect sockets. The Blueprint generates and retains the Rails
+session secret and room encryption keys.
 
-- `https://crosspaste.mahadimran.me`
-
-Repository:
-
-- `https://github.com/MahadImran/crosspaste`
+Render Free has a shared monthly allowance across services and can take about
+a minute to start after going idle. See [Render's free tier](https://render.com/docs/free)
+and [Neon plans](https://neon.com/pricing).
