@@ -51,11 +51,14 @@ bin/rails test
 
 ## Hosting and CI/CD
 
+[Open the hosted app](https://crosspaste-mahad.onrender.com).
+
 GitHub Actions runs Rails tests, lint, dependency audits, and a production Docker
 smoke test against PostgreSQL. The smoke test creates a room, saves text, and verifies the Turbo Stream over a WebSocket.
 
 1. Create a free [Neon](https://console.neon.tech/) project for this app. Copy the
-   direct PostgreSQL connection string with TLS enabled.
+   direct PostgreSQL connection string. For hostname verification in the Docker
+   image, use `sslmode=verify-full` and `sslrootcert=/etc/ssl/certs/ca-certificates.crt`.
 2. In [Render](https://dashboard.render.com/), choose **New → Blueprint** and connect
    this GitHub repository. The Blueprint selects a free Docker web service and
    prompts for the connection string as `DATABASE_URL`.
